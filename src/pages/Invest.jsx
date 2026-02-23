@@ -29,7 +29,7 @@ export default function Invest() {
 
   // Map backend packages to desired display (Silver, Gold, Diamond)
   const packageMap = {
-    Billers: {
+    Silver: {
       displayName: 'Silver',
       percent: 3,
       minInvestment: 1000,
