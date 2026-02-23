@@ -3261,3 +3261,58 @@ html {
     width: 100%;
   }
 }
+/* Prevent horizontal overflow */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Ensure all containers fit within viewport */
+.container, .dashboard-container, .invest-modern, .leaderboard-modern, .profile-container,
+.hero-simple, .leaderboard-preview, .stats-simple {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+/* Images and cards should never exceed container */
+img, .card, .package-card, .leaderboard-card, .stat-card {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix for any absolute/fixed positioned elements that might cause overflow */
+.sidebar, .modal, .sidebar-overlay {
+    max-width: 100vw;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+    /* Reduce padding on sections */
+    .hero-simple, .leaderboard-preview, .stats-simple {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Ensure buttons and text don't overflow */
+    .btn, .btn-primary, .btn-outline {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    /* Fix for any grid gaps causing overflow */
+    .stats-grid, .actions-grid, .package-grid-modern {
+        gap: 0.75rem;
+    }
+
+    /* Leaderboard cards on mobile */
+    .leaderboard-cards {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .leaderboard-card {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
