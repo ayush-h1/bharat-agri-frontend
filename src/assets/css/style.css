@@ -3572,4 +3572,28 @@ img, .card, .package-card, .leaderboard-card, .stat-card {
         margin-top: 2rem;
     }
 }
+.referral-disclaimer {
+  background: linear-gradient(135deg, #fff3cd, #ffe69c);
+  border-left: 5px solid #ffa000;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.referral-disclaimer h3 {
+  color: #856404;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.referral-disclaimer p {
+  color: #856404;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.referral-disclaimer strong {
+  color: #b26a00;
+}
 
