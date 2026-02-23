@@ -3090,3 +3090,174 @@ html {
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   z-index: 1000;
 }
+/* ===== Mobile Responsiveness ===== */
+
+/* General adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  /* Container padding */
+  .container, .dashboard-container, .invest-modern, .leaderboard-modern, .profile-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Dashboard welcome card */
+  .welcome-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .welcome-stats {
+    width: 100%;
+  }
+
+  /* Stats grid */
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  /* Dashboard row (chart + recent) */
+  .dashboard-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Recent investments list */
+  .recent-list li {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Quick actions */
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Invest page */
+  .package-grid-modern {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-tabs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tab-btn {
+    width: 100%;
+  }
+
+  /* Leaderboard */
+  .top-winners {
+    grid-template-columns: 1fr;
+  }
+
+  .prize-pool {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .countdown {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Tables */
+  .table-container, .investments-table-container, .transactions-table-container {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px; /* forces scroll on small screens */
+  }
+
+  /* Profile page */
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-meta {
+    justify-content: center;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile-actions {
+    flex-direction: column;
+  }
+
+  /* Admin panel (if any) */
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    position: static;
+  }
+
+  .admin-content {
+    padding: 1rem;
+  }
+
+  /* Payment page */
+  .payment-card {
+    padding: 1.5rem;
+  }
+
+  .upi-option {
+    flex-wrap: wrap;
+  }
+
+  .qr-code img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-simple h1 {
+    font-size: 2rem;
+  }
+
+  .stat-big .stat-number {
+    font-size: 2.5rem;
+  }
+
+  .leaderboard-card {
+    width: 100%;
+  }
+}
