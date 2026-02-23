@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import StatCard from '../components/StatCard';
 
@@ -38,6 +38,13 @@ export default function Referrals() {
   return (
     <div className="container">
       <h2>Referral Program</h2>
+
+      {/* Disclaimer Card */}
+      <div className="referral-disclaimer">
+        <h3>🎁 25% Referral Bonus</h3>
+        <p>You earn <strong>25% of the first investment</strong> from every friend you refer. This bonus is instantly credited to your wallet and can be withdrawn immediately – no waiting period!</p>
+      </div>
+
       <div className="stats-grid">
         <StatCard title="Total Referrals" value={stats.totalReferrals} />
         <StatCard title="Active Referrals" value={stats.activeReferrals} />
