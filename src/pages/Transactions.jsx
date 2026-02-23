@@ -6,10 +6,9 @@ export default function Transactions() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Assuming you have an endpoint /transactions/user
     api.get('/transactions/user')
       .then(data => {
-        setTransactions(data);
+        setTransactions(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(err => {
