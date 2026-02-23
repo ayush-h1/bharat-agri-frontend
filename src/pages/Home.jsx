@@ -174,8 +174,8 @@ export default function Home() {
           </div>
           <div className="package-grid">
             <div className="package-card">
-              <h4>Billers</h4>
-              <div className="price">₹100</div>
+              <h4>Silver</h4>
+              <div className="price">₹1000</div>
               <div className="daily">3% Daily</div>
               <p className="package-desc">Perfect for beginners to test the waters.</p>
               <Link to="/register" className="btn btn-outline">Get Started</Link>
