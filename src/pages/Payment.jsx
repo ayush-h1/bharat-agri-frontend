@@ -67,7 +67,6 @@ export default function Payment() {
 
     setProcessing(true);
 
-    // Prepare form data (for file upload)
     const formData = new FormData();
     formData.append('amount', amount);
     formData.append('utr', utr);
@@ -88,8 +87,7 @@ export default function Payment() {
 
   if (!upi) return <div className="loading">Loading payment details...</div>;
 
-  return ( /* JSX unchanged – same as before */ );
-}
+  return (
     <div className="payment-container">
       <h2>{packageInfo ? `Complete Payment for ${packageInfo}` : 'Add Funds to Wallet'}</h2>
       <div className="payment-card">
@@ -105,7 +103,6 @@ export default function Payment() {
           </div>
         )}
 
-        {/* UPI Details - directly shown */}
         <div className="upi-details">
           <h4>Pay via UPI</h4>
           <div className="qr-code">
