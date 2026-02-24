@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { Link } from 'react-router-dom';
 
 export default function Withdraw() {
   const [amount, setAmount] = useState('');
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [savedUpi, setSavedUpi] = useState(null); // single UPI object { upiId, accountHolder }
+  const [selectedUpi, setSelectedUpi] = useState('');
+  const [upiLoading, setUpiLoading] = useState(true);
 
   const MIN_WITHDRAWAL = 3000;
   const WC_FEE = 0.05;
@@ -13,7 +17,22 @@ export default function Withdraw() {
 
   useEffect(() => {
     loadHistory();
+    loadUpiDetails();
   }, []);
+
+  const loadUpiDetails = async () => {
+    try {
+      const data = await api.get('/user/bank-details');
+      if (data && data.upiId) {
+        setSavedUpi(data);
+        setSelectedUpi(data.upiId);
+      }
+    } catch (err) {
+      console.error('Failed to load UPI details', err);
+    } finally {
+      setUpiLoading(false);
+    }
+  };
 
   const loadHistory = async () => {
     try {
@@ -33,8 +52,13 @@ export default function Withdraw() {
       setError(`Minimum withdrawal is ₹${MIN_WITHDRAWAL}`);
       return;
     }
+    if (!selectedUpi) {
+      setError('Please select a UPI ID to withdraw to.');
+      return;
+    }
     try {
-      await api.post('/withdrawals', { amount: amt });
+      // Include upiId in the request body
+      await api.post('/withdrawals', { amount: amt, upiId: selectedUpi });
       alert('Withdrawal request submitted successfully!');
       setAmount('');
       loadHistory();
@@ -53,11 +77,39 @@ export default function Withdraw() {
       <div className="withdraw-layout">
         <div className="card">
           <h3>Request Withdrawal</h3>
+
+          {/* UPI Selection */}
+          <div className="form-group">
+            <label>Withdraw to UPI ID</label>
+            {upiLoading ? (
+              <p>Loading your UPI details...</p>
+            ) : savedUpi ? (
+              <div className="upi-selection">
+                <select
+                  value={selectedUpi}
+                  onChange={(e) => setSelectedUpi(e.target.value)}
+                  required
+                >
+                  <option value="">Select UPI ID</option>
+                  <option value={savedUpi.upiId}>
+                    {savedUpi.upiId} ({savedUpi.accountHolder})
+                  </option>
+                </select>
+                <Link to="/profile" className="btn-link">Edit</Link>
+              </div>
+            ) : (
+              <p className="warning">
+                No UPI ID saved. Please add one in <Link to="/profile">Profile</Link> first.
+              </p>
+            )}
+          </div>
+
           <div className="fee-info">
             <p><strong>Minimum withdrawal:</strong> ₹{MIN_WITHDRAWAL}</p>
             <p><strong>Fees:</strong> 5% WC + 5% Service Tax</p>
             <p className="net-amount">You will receive: ₹{net}</p>
           </div>
+
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Amount (₹)</label>
@@ -76,7 +128,13 @@ export default function Withdraw() {
               <p className="net-amount">You will receive: ₹{net}</p>
             </div>
             {error && <div className="error">{error}</div>}
-            <button type="submit" className="btn">Request Withdrawal</button>
+            <button
+              type="submit"
+              className="btn"
+              disabled={!selectedUpi}
+            >
+              Request Withdrawal
+            </button>
           </form>
         </div>
 
