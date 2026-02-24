@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
-// List of UPI IDs – one will be chosen randomly
 const upiOptions = [
   { id: 'bharatagri@okhdfcbank', name: 'HDFC Bank' },
   { id: 'bharatagri@axisbank', name: 'Axis Bank' },
@@ -28,7 +28,6 @@ export default function Payment() {
     if (amt) setAmount(parseInt(amt));
     if (pkg) setPackageInfo(pkg);
 
-    // Pick a random UPI
     const randomIndex = Math.floor(Math.random() * upiOptions.length);
     setUpi(upiOptions[randomIndex]);
   }, [location]);
@@ -67,16 +66,30 @@ export default function Payment() {
     }
 
     setProcessing(true);
-    // Simulate submission (manual verification)
-    setTimeout(() => {
-      alert('Your payment request has been submitted and is under verification. You will be notified once confirmed.');
+
+    // Prepare form data (for file upload)
+    const formData = new FormData();
+    formData.append('amount', amount);
+    formData.append('utr', utr);
+    if (packageInfo) formData.append('packageInfo', packageInfo);
+    if (screenshot) formData.append('screenshot', screenshot);
+
+    try {
+      await api.post('/payment-requests', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      alert('Your payment request has been submitted and is under verification.');
       navigate(packageInfo ? '/invest' : '/dashboard');
-    }, 1500);
+    } catch (err) {
+      alert('Submission failed: ' + (err.error || err.message));
+      setProcessing(false);
+    }
   };
 
   if (!upi) return <div className="loading">Loading payment details...</div>;
 
-  return (
+  return ( /* JSX unchanged – same as before */ );
+}
     <div className="payment-container">
       <h2>{packageInfo ? `Complete Payment for ${packageInfo}` : 'Add Funds to Wallet'}</h2>
       <div className="payment-card">
