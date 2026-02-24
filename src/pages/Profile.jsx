@@ -69,6 +69,34 @@ export default function Profile() {
         </div>
       </div>
 
+      // ===== Bank Details Section =====
+<div className="profile-section">
+  <h3>Withdrawal Details</h3>
+  <div className="bank-details-form">
+    <div className="form-group">
+      <label>UPI ID</label>
+      <input
+        type="text"
+        value={upiId}
+        onChange={(e) => setUpiId(e.target.value)}
+        placeholder="e.g., username@okhdfcbank"
+      />
+    </div>
+    <div className="form-group">
+      <label>Account Holder Name</label>
+      <input
+        type="text"
+        value={accountHolder}
+        onChange={(e) => setAccountHolder(e.target.value)}
+        placeholder="As per bank records"
+      />
+    </div>
+    <button className="btn btn-primary" onClick={saveBankDetails}>
+      Save Withdrawal Details
+    </button>
+    {bankSaveMessage && <div className="success">{bankSaveMessage}</div>}
+  </div>
+</div>
       {/* Recent Investments Table */}
       <div className="recent-section">
         <h3>Recent Investments</h3>
