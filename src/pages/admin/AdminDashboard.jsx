@@ -21,13 +21,14 @@ export default function AdminDashboard() {
       try {
         const [statsRes, chartRes] = await Promise.all([
           api.get("/admin/stats"),
-          api.get("/admin/revenue"), // your revenue endpoint
+          api.get("/admin/revenue"),
         ]);
 
-        setStats(statsRes.data);
-        setChartData(chartRes.data);
+        // 🛡️ ensure valid data
+        setStats(statsRes?.data || {});
+        setChartData(chartRes?.data || []);
       } catch (err) {
-        console.error(err);
+        console.error("Admin dashboard error:", err);
         setError("Failed to load admin data");
       } finally {
         setLoading(false);
@@ -53,32 +54,32 @@ export default function AdminDashboard() {
       <div className="stats-grid">
         <div className="stat-card">
           <h3>Total Users</h3>
-          <p>{stats.totalUsers}</p>
+          <p>{stats?.totalUsers || 0}</p>
         </div>
 
         <div className="stat-card">
           <h3>Total Investments</h3>
-          <p>{stats.totalInvestments}</p>
+          <p>{stats?.totalInvestments || 0}</p>
         </div>
 
         <div className="stat-card">
           <h3>Total Invested</h3>
-          <p>₹{stats.totalInvested}</p>
+          <p>₹{stats?.totalInvested || 0}</p>
         </div>
 
         <div className="stat-card">
           <h3>Total Earnings Paid</h3>
-          <p>₹{stats.totalEarnings}</p>
+          <p>₹{stats?.totalEarnings || 0}</p>
         </div>
 
         <div className="stat-card">
           <h3>Total Withdrawn</h3>
-          <p>₹{stats.totalWithdrawn}</p>
+          <p>₹{stats?.totalWithdrawn || 0}</p>
         </div>
 
         <div className="stat-card">
           <h3>Pending Withdrawals</h3>
-          <p>{stats.pendingWithdrawals}</p>
+          <p>{stats?.pendingWithdrawals || 0}</p>
         </div>
       </div>
 
