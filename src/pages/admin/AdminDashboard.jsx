@@ -1,56 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
-import { Link } from 'react-router-dom';
+<div className="stats-grid">
 
-export default function AdminDashboard() {
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalInvestments: 0,
-    pendingWithdrawals: 0,
-    pendingPayments: 0,
-    totalInvested: 0,
-  });
-  const [loading, setLoading] = useState(true);
+  <div className="stat-card">
+    <h3>Total Users</h3>
+    <p>{stats.totalUsers}</p>
+  </div>
 
-  useEffect(() => {
-    Promise.all([
-      api.get('/admin/stats').catch(() => ({})),
-      // if you have separate endpoints, adjust
-    ])
-      .then(([statsData]) => {
-        setStats(statsData);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+  <div className="stat-card">
+    <h3>Total Investments</h3>
+    <p>{stats.totalInvestments}</p>
+  </div>
 
-  if (loading) return <div className="loading">Loading...</div>;
+  <div className="stat-card">
+    <h3>Total Invested</h3>
+    <p>₹{stats.totalInvested}</p>
+  </div>
 
-  return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <div className="stats-grid">
-        <div className="stat-card">
-          <h3>Total Users</h3>
-          <p>{stats.totalUsers}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Total Investments</h3>
-          <p>{stats.totalInvestments}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Pending Withdrawals</h3>
-          <p>{stats.pendingWithdrawals}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Pending Payments</h3>
-          <p>{stats.pendingPayments}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Total Invested</h3>
-          <p>₹{stats.totalInvested}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+  <div className="stat-card">
+    <h3>Total Earnings Paid</h3>
+    <p>₹{stats.totalEarnings}</p>
+  </div>
+
+  <div className="stat-card">
+    <h3>Total Withdrawn</h3>
+    <p>₹{stats.totalWithdrawn}</p>
+  </div>
+
+  <div className="stat-card">
+    <h3>Pending Withdrawals</h3>
+    <p>{stats.pendingWithdrawals}</p>
+  </div>
+
+</div>
