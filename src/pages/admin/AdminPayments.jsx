@@ -6,8 +6,7 @@ export default function AdminPayments() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This endpoint would return pending payment submissions (with UTR, screenshot, amount, user)
-    api.get('/admin/payments/pending')
+    api.get('/admin/payment-requests')
       .then(data => {
         setPayments(Array.isArray(data) ? data : []);
         setLoading(false);
@@ -17,7 +16,7 @@ export default function AdminPayments() {
 
   const approvePayment = async (paymentId) => {
     try {
-      await api.post(`/admin/payments/${paymentId}/approve`);
+      await api.post(`/admin/payment-requests/${paymentId}/approve`);
       setPayments(payments.filter(p => p._id !== paymentId));
     } catch (err) {
       alert(err.error || 'Failed to approve');
@@ -26,7 +25,7 @@ export default function AdminPayments() {
 
   const rejectPayment = async (paymentId) => {
     try {
-      await api.post(`/admin/payments/${paymentId}/reject`);
+      await api.post(`/admin/payment-requests/${paymentId}/reject`);
       setPayments(payments.filter(p => p._id !== paymentId));
     } catch (err) {
       alert(err.error || 'Failed to reject');
