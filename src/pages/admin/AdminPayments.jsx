@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 
+// Helper to safely convert any value to a string for rendering
+const safeString = (value, fallback = '') => {
+  if (value === null || value === undefined) return fallback;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number') return value.toString();
+  if (typeof value === 'boolean') return value.toString();
+  if (typeof value === 'object') {
+    // Log the object to help debugging
+    console.error('Object being rendered directly:', value);
+    return '[Object]'; // fallback to avoid crashing
+  }
+  return fallback;
+};
+
 export default function AdminPayments() {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,7 +22,6 @@ export default function AdminPayments() {
   useEffect(() => {
     api.get('/admin/payment-requests')
       .then(data => {
-        // Ensure data is an array
         setPayments(Array.isArray(data) ? data : []);
         setLoading(false);
       })
@@ -55,20 +68,20 @@ export default function AdminPayments() {
           <tbody>
             {payments.map(p => (
               <tr key={p._id}>
-                {/* Safely render user name: if populated, use name; otherwise fallback to userId string */}
+                {/* Safely render user name */}
                 <td>
                   {p.user && typeof p.user === 'object'
-                    ? p.user.name || p.user.email || p.user._id
-                    : p.userId || 'Unknown'}
+                    ? safeString(p.user.name) || safeString(p.user.email) || safeString(p.user._id) || 'Unknown'
+                    : safeString(p.userId) || 'Unknown'}
                 </td>
-                <td>₹{p.amount}</td>
-                <td>{p.utr}</td>
+                <td>₹{safeString(p.amount)}</td>
+                <td>{safeString(p.utr)}</td>
                 <td>
                   {p.screenshot ? (
-                    <a href={p.screenshot} target="_blank" rel="noopener noreferrer">View</a>
+                    <a href={safeString(p.screenshot)} target="_blank" rel="noopener noreferrer">View</a>
                   ) : '—'}
                 </td>
-                <td>{new Date(p.createdAt).toLocaleDateString()}</td>
+                <td>{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</td>
                 <td>
                   <button onClick={() => approvePayment(p._id)}>Approve</button>
                   <button onClick={() => rejectPayment(p._id)}>Reject</button>
