@@ -8,6 +8,7 @@ export default function AdminPayments() {
   useEffect(() => {
     api.get('/admin/payment-requests')
       .then(data => {
+        // Ensure data is an array
         setPayments(Array.isArray(data) ? data : []);
         setLoading(false);
       })
@@ -54,11 +55,18 @@ export default function AdminPayments() {
           <tbody>
             {payments.map(p => (
               <tr key={p._id}>
-                <td>{p.user?.name || p.userId}</td>
+                {/* Safely render user name: if populated, use name; otherwise fallback to userId string */}
+                <td>
+                  {p.user && typeof p.user === 'object'
+                    ? p.user.name || p.user.email || p.user._id
+                    : p.userId || 'Unknown'}
+                </td>
                 <td>₹{p.amount}</td>
                 <td>{p.utr}</td>
                 <td>
-                  {p.screenshot && <a href={p.screenshot} target="_blank" rel="noopener noreferrer">View</a>}
+                  {p.screenshot ? (
+                    <a href={p.screenshot} target="_blank" rel="noopener noreferrer">View</a>
+                  ) : '—'}
                 </td>
                 <td>{new Date(p.createdAt).toLocaleDateString()}</td>
                 <td>
