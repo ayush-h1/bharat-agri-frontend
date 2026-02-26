@@ -17,26 +17,27 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [statsRes, chartRes] = await Promise.all([
-          api.get("/admin/stats"),
-          api.get("/admin/revenue"),
-        ]);
+  const fetchData = async () => {
+    try {
+      const [statsRes, chartRes] = await Promise.all([
+        api.get("/admin/stats"),
+        api.get("/admin/revenue"),
+      ]);
 
-        // 🛡️ ensure valid data
-        setStats(statsRes?.data || {});
-        setChartData(chartRes?.data || []);
-      } catch (err) {
-        console.error("Admin dashboard error:", err);
-        setError("Failed to load admin data");
-      } finally {
-        setLoading(false);
-      }
-    };
+      // 🔥 IMPORTANT FIX HERE
+      setStats(statsRes || {});
+      setChartData(chartRes || []);
 
-    fetchData();
-  }, []);
+    } catch (err) {
+      console.error("Admin dashboard error:", err);
+      setError("Failed to load admin data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
 
   if (loading) {
     return <div style={{ padding: 20 }}>Loading admin dashboard...</div>;
