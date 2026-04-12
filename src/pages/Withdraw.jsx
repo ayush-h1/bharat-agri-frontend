@@ -11,7 +11,7 @@ export default function Withdraw() {
   const [selectedUpi, setSelectedUpi] = useState('');
   const [upiLoading, setUpiLoading] = useState(true);
 
-  const MIN_WITHDRAWAL = 3000;
+  const MIN_WITHDRAWAL = 100;
   const WC_FEE = 0.05;
   const SERVICE_FEE = 0.05;
 
@@ -49,7 +49,7 @@ export default function Withdraw() {
     e.preventDefault();
     const amt = parseFloat(amount);
     if (amt < MIN_WITHDRAWAL) {
-      setError(`Minimum withdrawal is ₹${MIN_WITHDRAWAL}`);
+      setError(`Minimum withdrawal is $${MIN_WITHDRAWAL}`);
       return;
     }
     if (!selectedUpi) {
@@ -105,14 +105,14 @@ export default function Withdraw() {
           </div>
 
           <div className="fee-info">
-            <p><strong>Minimum withdrawal:</strong> ₹{MIN_WITHDRAWAL}</p>
+            <p><strong>Minimum withdrawal:</strong> ${MIN_WITHDRAWAL}</p>
             <p><strong>Fees:</strong> 5% WC + 5% Service Tax</p>
-            <p className="net-amount">You will receive: ₹{net}</p>
+            <p className="net-amount">You will receive: ${net}</p>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Amount (₹)</label>
+              <label>Amount ($)</label>
               <input
                 type="number"
                 min={MIN_WITHDRAWAL}
@@ -123,9 +123,9 @@ export default function Withdraw() {
               />
             </div>
             <div id="feeCalculation" style={{ marginBottom: '1rem' }}>
-              <p><strong>WC Fee (5%):</strong> ₹{wcFee}</p>
-              <p><strong>Service Tax (5%):</strong> ₹{serviceFee}</p>
-              <p className="net-amount">You will receive: ₹{net}</p>
+              <p><strong>WC Fee (5%):</strong> ${wcFee}</p>
+              <p><strong>Service Tax (5%):</strong> ${serviceFee}</p>
+              <p className="net-amount">You will receive: ${net}</p>
             </div>
             {error && <div className="error">{error}</div>}
             <button
@@ -154,8 +154,8 @@ export default function Withdraw() {
                   {history.map(w => (
                     <tr key={w._id}>
                       <td>{new Date(w.requestedAt).toLocaleDateString()}</td>
-                      <td>₹{w.amount}</td>
-                      <td>₹{w.netAmount}</td>
+                      <td>${w.amount}</td>
+                      <td>${w.netAmount}</td>
                       <td><span className={`badge ${w.status}`}>{w.status}</span></td>
                     </tr>
                   ))}
