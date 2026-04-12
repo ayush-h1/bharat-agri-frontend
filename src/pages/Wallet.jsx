@@ -1,4 +1,3 @@
-// src/pages/Wallet.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
@@ -9,8 +8,10 @@ export default function Wallet() {
   const [transactions, setTransactions] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
-  const [showFundModal, setShowFundModal] = useState(false);
-  const [fundAmount, setFundAmount] = useState('');
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [depositAmount, setDepositAmount] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   useEffect(() => {
     api.get('/transactions/user')
@@ -23,7 +24,10 @@ export default function Wallet() {
 
   const filteredTransactions = transactions.filter(tx => {
     if (filter === 'all') return true;
-    return tx.type === filter;
+    if (filter === 'deposit') return tx.type === 'deposit';
+    if (filter === 'withdrawal') return tx.type === 'withdrawal';
+    if (filter === 'earning') return tx.type === 'return' || tx.type === 'referral_bonus';
+    return true;
   });
 
   const totalDeposited = transactions
@@ -31,12 +35,24 @@ export default function Wallet() {
     .reduce((sum, tx) => sum + tx.amount, 0);
     
   const totalWithdrawn = transactions
-    .filter(tx => tx.type === 'withdrawal')
+    .filter(tx => tx.type === 'withdrawal' && tx.status === 'approved')
     .reduce((sum, tx) => sum + tx.amount, 0);
     
   const totalEarned = transactions
     .filter(tx => tx.type === 'return' || tx.type === 'referral_bonus')
     .reduce((sum, tx) => sum + tx.amount, 0);
+
+  const handleDeposit = () => {
+    if (depositAmount && parseFloat(depositAmount) > 0) {
+      window.location.href = `/payment?amount=${depositAmount}`;
+    }
+  };
+
+  const handleWithdraw = () => {
+    if (withdrawAmount && parseFloat(withdrawAmount) > 0) {
+      window.location.href = `/withdraw?amount=${withdrawAmount}`;
+    }
+  };
 
   return (
     <div className="wallet-container">
@@ -59,12 +75,12 @@ export default function Wallet() {
           <span className="balance-sub">Available for withdrawal</span>
         </div>
         <div className="balance-actions">
-          <button className="btn-deposit" onClick={() => setShowFundModal(true)}>
+          <button className="btn-deposit" onClick={() => setShowDepositModal(true)}>
             <i className="fas fa-plus-circle"></i> Deposit
           </button>
-          <Link to="/withdraw" className="btn-withdraw">
+          <button className="btn-withdraw" onClick={() => setShowWithdrawModal(true)}>
             <i className="fas fa-arrow-up"></i> Withdraw
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -107,7 +123,7 @@ export default function Wallet() {
             <button className={`filter-btn ${filter === 'withdrawal' ? 'active' : ''}`} onClick={() => setFilter('withdrawal')}>
               Withdrawals
             </button>
-            <button className={`filter-btn ${filter === 'return' ? 'active' : ''}`} onClick={() => setFilter('return')}>
+            <button className={`filter-btn ${filter === 'earning' ? 'active' : ''}`} onClick={() => setFilter('earning')}>
               Earnings
             </button>
           </div>
@@ -132,7 +148,7 @@ export default function Wallet() {
                 </tr>
               </thead>
               <tbody>
-                {filteredTransactions.slice(0, 10).map(tx => (
+                {filteredTransactions.slice(0, 20).map(tx => (
                   <tr key={tx._id}>
                     <td>{new Date(tx.createdAt).toLocaleDateString()}</td>
                     <td>
@@ -156,32 +172,51 @@ export default function Wallet() {
       </div>
 
       {/* Deposit Modal */}
-      {showFundModal && (
-        <div className="modal-overlay" onClick={() => setShowFundModal(false)}>
+      {showDepositModal && (
+        <div className="modal-overlay" onClick={() => setShowDepositModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Add Funds</h3>
+            <h3>Deposit Funds</h3>
             <div className="form-group">
               <label>Amount (USD)</label>
               <input
                 type="number"
-                value={fundAmount}
-                onChange={(e) => setFundAmount(e.target.value)}
+                value={depositAmount}
+                onChange={(e) => setDepositAmount(e.target.value)}
                 placeholder="Enter amount"
+                min="10"
+                step="10"
                 autoFocus
               />
             </div>
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setShowFundModal(false)}>Cancel</button>
-              <button 
-                className="btn-confirm" 
-                onClick={() => {
-                  if (fundAmount && parseFloat(fundAmount) > 0) {
-                    window.location.href = `/payment?amount=${fundAmount}`;
-                  }
-                }}
-              >
-                Continue to Payment
-              </button>
+              <button className="btn-cancel" onClick={() => setShowDepositModal(false)}>Cancel</button>
+              <button className="btn-confirm" onClick={handleDeposit}>Continue to Payment</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Withdraw Modal */}
+      {showWithdrawModal && (
+        <div className="modal-overlay" onClick={() => setShowWithdrawModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Withdraw Funds</h3>
+            <div className="form-group">
+              <label>Amount (USD)</label>
+              <input
+                type="number"
+                value={withdrawAmount}
+                onChange={(e) => setWithdrawAmount(e.target.value)}
+                placeholder="Enter amount"
+                min="50"
+                step="10"
+                autoFocus
+              />
+              <small>Minimum withdrawal: $50</small>
+            </div>
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={() => setShowWithdrawModal(false)}>Cancel</button>
+              <button className="btn-confirm" onClick={handleWithdraw}>Proceed to Withdraw</button>
             </div>
           </div>
         </div>
