@@ -48,7 +48,7 @@ export default function Referrals() {
       <div className="stats-grid">
         <StatCard title="Total Referrals" value={stats.totalReferrals} />
         <StatCard title="Active Referrals" value={stats.activeReferrals} />
-        <StatCard title="Total Earnings" value={`₹${stats.totalEarned.toFixed(2)}`} />
+        <StatCard title="Total Earnings" value={`$${stats.totalEarned.toFixed(2)}`} />
       </div>
 
       <div className="referral-link-box">
