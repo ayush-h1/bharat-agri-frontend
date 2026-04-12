@@ -78,11 +78,11 @@ export default function Profile() {
         </div>
         <div className="summary-card">
           <span className="card-label">Total Invested</span>
-          <span className="card-value">₹{totalInvested.toFixed(2)}</span>
+          <span className="card-value">${totalInvested.toFixed(2)}</span>
         </div>
         <div className="summary-card">
           <span className="card-label">Total Earned</span>
-          <span className="card-value">₹{totalEarned.toFixed(2)}</span>
+          <span className="card-value">${totalEarned.toFixed(2)}</span>
         </div>
       </div>
 
@@ -129,7 +129,7 @@ export default function Profile() {
             {investments.slice(0, 5).map(inv => (
               <tr key={inv._id}>
                 <td>{inv.sector}</td>
-                <td>₹{inv.amount?.toFixed(2)}</td>
+                <td>${inv.amount?.toFixed(2)}</td>
                 <td><span className={`badge ${inv.status}`}>{inv.status}</span></td>
               </tr>
             ))}
