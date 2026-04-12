@@ -28,7 +28,7 @@ export default function SidebarLayout({ children }) {
           <i className="fas fa-bars"></i>
         </button>
         <div className="mobile-logo">
-          <h2>Bharat Agri Network</h2>
+          <h2>AgriWealth</h2>
         </div>
       </div>
 
@@ -36,7 +36,7 @@ export default function SidebarLayout({ children }) {
 
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <h2 className="sidebar-title">Bharat Agri Network</h2>
+          <h2 className="sidebar-title">AgriWealth</h2>
           <p className="sidebar-user">Welcome, {user?.name}</p>
         </div>
         <nav className="sidebar-nav">
@@ -44,13 +44,16 @@ export default function SidebarLayout({ children }) {
             <i className="fas fa-tachometer-alt"></i> Dashboard
           </Link>
           <Link to="/invest" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
-            <i className="fas fa-leaf"></i> Invest
+            <i className="fas fa-leaf"></i> Deploy Capital
           </Link>
           <Link to="/my-investments" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
-            <i className="fas fa-chart-line"></i> My Investments
+            <i className="fas fa-chart-line"></i> My Farms
           </Link>
           <Link to="/transactions" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
             <i className="fas fa-exchange-alt"></i> Transactions
+          </Link>
+          <Link to="/wallet" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
+            <i className="fas fa-wallet"></i> Wallet
           </Link>
           <Link to="/referrals" className="sidebar-link" onClick={() => setSidebarOpen(false)}>
             <i className="fas fa-users"></i> Referrals
