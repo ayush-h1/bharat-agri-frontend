@@ -17,7 +17,7 @@ export default function TopUp() {
       <h2>Add Funds to Wallet</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Amount (₹)</label>
+          <label>Amount ($)</label>
           <input
             type="number"
             min="1"
