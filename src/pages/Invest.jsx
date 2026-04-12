@@ -27,42 +27,42 @@ export default function Invest() {
     setFaqOpen(prev => ({ ...prev, [index]: !prev[index] }));
   };
 
-  // Map backend packages to desired display (Silver, Gold, Diamond)
+  // Map backend packages to desired display (Starter, Growth, Pro)
   const packageMap = {
-    Silver: {
-      displayName: 'Silver',
-      percent: 3,
-      minInvestment: 1000,
-      maxInvestment: 10000,
+    Starter: {
+      displayName: 'Starter',
+      percent: 0.5,
+      minInvestment: 50,
+      maxInvestment: 500,
       features: [
-        'Minimum Deposit ₹1,000',
-        'Maximum Deposit ₹10,000',
+        'Minimum Deposit $50',
+        'Maximum Deposit $500',
         'Enhanced security',
         'Access to fish farming',
         '24/7 Support'
       ]
     },
-    Gold: {
-      displayName: 'Gold',
-      percent: 5,
-      minInvestment: 3000,
-      maxInvestment: 10000,
+    Growth: {
+      displayName: 'Growth',
+      percent: 1.0,
+      minInvestment: 200,
+      maxInvestment: 2000,
       features: [
-        'Minimum Deposit ₹3,000',
-        'Maximum Deposit ₹10,000',
+        'Minimum Deposit $200',
+        'Maximum Deposit $2,000',
         'Enhanced security',
         'Access to all sectors',
         '24/7 Support'
       ]
     },
-    Diamond: {
-      displayName: 'Diamond',
-      percent: 10,
-      minInvestment: 7000,
-      maxInvestment: 10000,
+    Pro: {
+      displayName: 'Pro',
+      percent: 2.0,
+      minInvestment: 500,
+      maxInvestment: 5000,
       features: [
-        'Minimum Deposit ₹7,000',
-        'Maximum Deposit ₹10,000',
+        'Minimum Deposit $500',
+        'Maximum Deposit $5,000',
         'Enhanced security',
         'Access to all sectors + analytics',
         '24/7 Support'
@@ -73,7 +73,7 @@ export default function Invest() {
   const faqList = [
     {
       question: 'How does investing in digital farming work?',
-      answer: 'You choose an investment package and sector (Fish, Bee, Poultry, or Dairy). Your funds are used to support real farming operations. You earn daily returns based on your package, and at the end of the 30‑day term, your principal plus all accrued returns are released to your wallet.'
+      answer: 'You choose an investment package and sector (Fish, Bee, Poultry, or Dairy). Your funds are used to support real farming operations in the US and Australia. You earn daily returns based on your package, and at the end of the 30‑day term, your principal plus all accrued returns are released to your wallet.'
     },
     {
       question: 'What are the risks involved?',
@@ -81,7 +81,7 @@ export default function Invest() {
     },
     {
       question: 'How do I withdraw my earnings?',
-      answer: 'Once your investment matures, the principal and returns are credited to your wallet. You can request a withdrawal anytime (minimum ₹3000). Withdrawals are processed within 24‑48 hours and sent to your registered bank account via NEFT/UPI.'
+      answer: 'Once your investment matures, the principal and returns are credited to your wallet. You can request a withdrawal anytime (minimum $50). Withdrawals are processed within 24‑48 hours and sent to your registered bank account via ACH or wire transfer.'
     }
   ];
 
