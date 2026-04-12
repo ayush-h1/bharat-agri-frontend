@@ -119,7 +119,7 @@ export default function Leaderboard() {
             </div>
             <div className="winner-prize">
               <span className="prize-label">Earn</span>
-              <span className="prize-amount">₹{(user.totalReferralEarnings || 0).toFixed(0)}</span>
+              <span className="prize-amount">${(user.totalReferralEarnings || 0).toFixed(0)}</span>
             </div>
           </div>
         ))}
@@ -175,7 +175,7 @@ export default function Leaderboard() {
                 </td>
                 <td>{user.followers || Math.floor(Math.random() * 15000)}</td>
                 <td>{user.referralCount || 0}</td>
-                <td>₹{(user.totalReferralEarnings || 0).toFixed(0)}</td>
+                <td>${(user.totalReferralEarnings || 0).toFixed(0)}</td>
               </tr>
             ))}
           </tbody>
