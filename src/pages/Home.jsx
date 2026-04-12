@@ -9,22 +9,22 @@ export default function Home() {
   const testimonials = [
     {
       id: 1,
-      name: 'Ramesh Patel',
-      role: 'Farmer, Maharashtra',
-      content: 'Bharat Agri Network helped me expand my dairy farm. The returns are timely and the platform is very transparent.',
+      name: 'James Wilson',
+      role: 'Farmer, Iowa',
+      content: 'AgriWealth helped me expand my dairy farm. The returns are timely and the platform is very transparent.',
       rating: 5
     },
     {
       id: 2,
-      name: 'Priya Sharma',
-      role: 'Investor, Delhi',
+      name: 'Sarah Johnson',
+      role: 'Investor, Texas',
       content: 'I started with a small investment in poultry and now I’m earning steady daily returns. Highly recommended!',
       rating: 5
     },
     {
       id: 3,
-      name: 'Amit Singh',
-      role: 'Agripreneur, Punjab',
+      name: 'Michael Chen',
+      role: 'Agripreneur, California',
       content: 'The referral program is amazing. I’ve already referred 5 friends and earning passive income.',
       rating: 5
     }
@@ -46,15 +46,15 @@ export default function Home() {
             </div>
             <div className="hero-stats">
               <div className="stat">
-                <span className="stat-number">10,000+</span>
+                <span className="stat-number">5,000+</span>
                 <span className="stat-label">Active Investors</span>
               </div>
               <div className="stat">
-                <span className="stat-number">500+</span>
+                <span className="stat-number">200+</span>
                 <span className="stat-label">Partner Farms</span>
               </div>
               <div className="stat">
-                <span className="stat-number">₹5Cr+</span>
+                <span className="stat-number">$2M+</span>
                 <span className="stat-label">Returns Paid</span>
               </div>
             </div>
@@ -72,28 +72,28 @@ export default function Home() {
             <div className="stat-card">
               <div className="stat-icon">🌾</div>
               <div className="stat-number">
-                {statsInView ? <CountUp end={150} duration={2} /> : '0'}+
+                {statsInView ? <CountUp end={80} duration={2} /> : '0'}+
               </div>
               <div className="stat-label">Projects Funded</div>
             </div>
             <div className="stat-card">
               <div className="stat-icon">👨‍🌾</div>
               <div className="stat-number">
-                {statsInView ? <CountUp end={2500} duration={2} /> : '0'}+
+                {statsInView ? <CountUp end={1200} duration={2} /> : '0'}+
               </div>
               <div className="stat-label">Farmers Supported</div>
             </div>
             <div className="stat-card">
               <div className="stat-icon">💰</div>
               <div className="stat-number">
-                ₹{statsInView ? <CountUp end={5} decimals={1} suffix="Cr" duration={2} /> : '0'}
+                ${statsInView ? <CountUp end={2.5} decimals={1} suffix="M" duration={2} /> : '0'}
               </div>
               <div className="stat-label">Total Investment</div>
             </div>
             <div className="stat-card">
               <div className="stat-icon">📈</div>
               <div className="stat-number">
-                {statsInView ? <CountUp end={12} duration={2} suffix="%" /> : '0'}
+                {statsInView ? <CountUp end={8} duration={2} suffix="%" /> : '0'}
               </div>
               <div className="stat-label">Avg. Annual Return</div>
             </div>
@@ -149,7 +149,7 @@ export default function Home() {
             <div className="step">
               <div className="number">2</div>
               <h5>Choose Package</h5>
-              <p>Select from Billers, Gold, or Diamond based on your budget.</p>
+              <p>Select from Starter, Growth, or Pro based on your budget.</p>
             </div>
             <div className="step">
               <div className="number">3</div>
@@ -174,24 +174,24 @@ export default function Home() {
           </div>
           <div className="package-grid">
             <div className="package-card">
-              <h4>Silver</h4>
-              <div className="price">₹1000</div>
-              <div className="daily">3% Daily</div>
+              <h4>Starter</h4>
+              <div className="price">$50</div>
+              <div className="daily">0.5% Daily</div>
               <p className="package-desc">Perfect for beginners to test the waters.</p>
               <Link to="/register" className="btn btn-outline">Get Started</Link>
             </div>
             <div className="package-card popular">
               <div className="badge">Most Popular</div>
-              <h4>Gold</h4>
-              <div className="price">₹3000</div>
-              <div className="daily">5% Daily</div>
+              <h4>Growth</h4>
+              <div className="price">$200</div>
+              <div className="daily">1.0% Daily</div>
               <p className="package-desc">Best for serious investors seeking higher returns.</p>
               <Link to="/register" className="btn btn-primary">Invest Now</Link>
             </div>
             <div className="package-card">
-              <h4>Diamond</h4>
-              <div className="price">₹7000</div>
-              <div className="daily">10% Daily</div>
+              <h4>Pro</h4>
+              <div className="price">$500</div>
+              <div className="daily">2.0% Daily</div>
               <p className="package-desc">Maximum returns for premium investors.</p>
               <Link to="/register" className="btn btn-outline">Get Started</Link>
             </div>
