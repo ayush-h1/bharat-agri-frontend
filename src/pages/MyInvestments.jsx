@@ -70,11 +70,11 @@ export default function MyInvestments() {
                 <tr key={inv._id}>
                   <td>{inv.sector}</td>
                   <td>{inv.packageId?.name || 'N/A'}</td>
-                  <td>₹{inv.amount.toFixed(2)}</td>
-                  <td>₹{inv.dailyReturn.toFixed(2)}</td>
+                  <td>${inv.amount.toFixed(2)}</td>
+                  <td>${inv.dailyReturn.toFixed(2)}</td>
                   <td>{new Date(inv.startDate).toLocaleDateString()}</td>
                   <td>{new Date(inv.endDate).toLocaleDateString()}</td>
-                  <td>₹{inv.totalPaid.toFixed(2)}</td>
+                  <td>${inv.totalPaid.toFixed(2)}</td>
                   <td><span className={`badge ${inv.status}`}>{inv.status}</span></td>
                 </tr>
               ))}
