@@ -3,7 +3,7 @@ import PublicLayout from './components/PublicLayout';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import Home from './pages/Home';
-import Login from './pages/Login';          // ← make sure this import exists
+import Login from './pages/Login';
 import Register from './pages/Register';
 import Leaderboard from './pages/Leaderboard';
 import Dashboard from './pages/Dashboard';
@@ -15,7 +15,7 @@ import Withdraw from './pages/Withdraw';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Payment from './pages/Payment';
-import TopUp from './pages/TopUp';
+import Wallet from './pages/Wallet';           // ← Add this
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminInvestments from './pages/admin/AdminInvestments';
@@ -30,7 +30,7 @@ function App() {
         {/* Public routes */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />            {/* ← add this */}
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Route>
@@ -45,7 +45,7 @@ function App() {
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
         <Route path="/payment" element={<PrivateRoute><Payment /></PrivateRoute>} />
-        <Route path="/topup" element={<PrivateRoute><TopUp /></PrivateRoute>} />
+        <Route path="/wallet" element={<PrivateRoute><Wallet /></PrivateRoute>} />  {/* ← Changed from /topup */}
 
         {/* Admin routes */}
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
