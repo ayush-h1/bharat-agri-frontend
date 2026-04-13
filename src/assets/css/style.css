@@ -743,3 +743,159 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* ===== My Farms Page ===== */
+.my-investments-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+.page-header {
+    margin-bottom: 2rem;
+}
+.page-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+.page-header p {
+    color: var(--text-muted);
+}
+.premium-tabs {
+    display: flex;
+    gap: 0.5rem;
+    background: #f0f0f0;
+    padding: 0.25rem;
+    border-radius: 50px;
+    width: fit-content;
+    margin-bottom: 2rem;
+}
+.filter-btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    background: transparent;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+}
+.farms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+.farm-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+.farm-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+.farm-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+.farm-icon {
+    width: 48px;
+    height: 48px;
+    background: #e8f5e9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+.farm-title {
+    flex: 1;
+}
+.farm-title h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.status-badge.active {
+    background: #d4edda;
+    color: #155724;
+}
+.status-badge.completed {
+    background: #e2e3e5;
+    color: #383d41;
+}
+.farm-details {
+    margin-bottom: 1rem;
+}
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border);
+}
+.detail-item .label {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+.detail-item .value {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+.detail-item .value.highlight {
+    color: var(--accent-dark);
+    font-size: 1.1rem;
+}
+.farm-progress {
+    margin-top: 1rem;
+}
+.progress-bar {
+    background: #e9ecef;
+    border-radius: 20px;
+    height: 6px;
+    overflow: hidden;
+}
+.progress-fill {
+    background: var(--primary);
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.3s;
+}
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+}
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.empty-state i {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+.empty-state p {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+}
