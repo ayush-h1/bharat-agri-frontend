@@ -18,34 +18,47 @@ export default function Payment() {
   const [exchangeRateINR, setExchangeRateINR] = useState(null);
   const [amountINR, setAmountINR] = useState(0);
   const [loadingRate, setLoadingRate] = useState(true);
+  const [rateError, setRateError] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const amt = params.get('amount');
     const pkg = params.get('package');
-    if (amt) setAmountUSD(parseInt(amt));
+    if (amt) setAmountUSD(parseFloat(amt));
     if (pkg) setPackageInfo(pkg);
   }, [location]);
 
-  // Fetch USD to INR exchange rate
+  // Fetch USD to INR exchange rate (live)
   useEffect(() => {
     if (amountUSD > 0) {
       fetch('https://api.exchangerate-api.com/v4/latest/USD')
         .then(res => res.json())
         .then(data => {
           const rate = data.rates.INR;
-          setExchangeRateINR(rate);
-          setAmountINR(amountUSD * rate);
-          setLoadingRate(false);
+          if (rate && typeof rate === 'number') {
+            setExchangeRateINR(rate);
+            setAmountINR(amountUSD * rate);
+            setLoadingRate(false);
+            setRateError(false);
+          } else {
+            throw new Error('Invalid rate');
+          }
         })
         .catch(err => {
-          console.error('Failed to fetch exchange rate', err);
+          console.error('Exchange rate fetch failed', err);
+          setRateError(true);
           setLoadingRate(false);
+          // Fallback approximate rate
+          const fallbackRate = 85;
+          setExchangeRateINR(fallbackRate);
+          setAmountINR(amountUSD * fallbackRate);
         });
+    } else {
+      setLoadingRate(false);
     }
   }, [amountUSD]);
 
-  // Fetch crypto exchange rate for crypto payments
+  // Fetch crypto exchange rate
   useEffect(() => {
     if (paymentMethod === 'crypto' && amountUSD > 0) {
       const cryptoId = selectedCrypto === 'USDT' || selectedCrypto === 'USDC' ? 'tether' : selectedCrypto.toLowerCase();
@@ -90,7 +103,7 @@ export default function Payment() {
         utr,
         packageInfo
       });
-      alert(`Payment request submitted! You will receive $${amountUSD} USD in your wallet after verification.`);
+      alert(`✅ Payment request submitted! You will receive $${amountUSD} USD after verification.`);
       navigate(packageInfo ? '/invest' : '/dashboard');
     } catch (err) {
       alert('Submission failed');
@@ -114,7 +127,7 @@ export default function Payment() {
         walletAddress: cryptoAddress,
         packageInfo
       });
-      alert(`Please send exactly ${cryptoAmount} ${selectedCrypto} to the provided address. You will receive $${amountUSD} USD in your wallet.`);
+      alert(`Please send exactly ${cryptoAmount} ${selectedCrypto} to the provided address.`);
       navigate(packageInfo ? '/invest' : '/dashboard');
     } catch (err) {
       alert('Submission failed');
@@ -123,75 +136,95 @@ export default function Payment() {
   };
 
   if (loadingRate && amountUSD > 0) {
-    return <div className="loading">Loading exchange rates...</div>;
+    return <div className="loading premium-loading">Fetching live exchange rate...</div>;
   }
 
   return (
-    <div className="payment-container">
-      <h2>{packageInfo ? `Complete Payment for ${packageInfo}` : 'Add Funds to Wallet'}</h2>
-      <div className="payment-card">
-        <h3>Payment Details</h3>
-        <div className="payment-amount">
-          <span className="label">You will receive:</span>
-          <span className="value">${amountUSD} USD</span>
+    <div className="premium-payment-container">
+      <div className="premium-payment-card">
+        <div className="payment-header">
+          <h2>{packageInfo ? `Complete Payment for ${packageInfo}` : 'Add Funds to Wallet'}</h2>
+          <p className="payment-subtitle">Secure payment gateway</p>
         </div>
 
-        {/* Payment Method Toggle */}
-        <div className="payment-method-toggle">
-          <button 
-            className={`toggle-btn ${paymentMethod === 'bank' ? 'active' : ''}`}
+        <div className="payment-amount-card">
+          <span className="label">You will receive</span>
+          <div className="amount-value">${amountUSD.toFixed(2)} USD</div>
+          {paymentMethod === 'bank' && exchangeRateINR && (
+            <div className="inr-equivalent">
+              ≈ ₹{amountINR.toFixed(2)} INR
+              <span className="rate-info">(1 USD = ₹{exchangeRateINR.toFixed(2)})</span>
+            </div>
+          )}
+        </div>
+
+        {/* Premium Toggle */}
+        <div className="premium-tabs">
+          <button
+            className={`tab-btn-premium ${paymentMethod === 'bank' ? 'active' : ''}`}
             onClick={() => setPaymentMethod('bank')}
           >
-            🏦 Bank Transfer (INR)
+            <i className="fas fa-university"></i> Bank Transfer (INR)
           </button>
-          <button 
-            className={`toggle-btn ${paymentMethod === 'crypto' ? 'active' : ''}`}
+          <button
+            className={`tab-btn-premium ${paymentMethod === 'crypto' ? 'active' : ''}`}
             onClick={() => setPaymentMethod('crypto')}
           >
-            ₿ Cryptocurrency
+            <i className="fab fa-bitcoin"></i> Cryptocurrency
           </button>
         </div>
 
-        {/* Bank Transfer Section - Shows INR amount to pay */}
+        {/* Bank Transfer Section */}
         {paymentMethod === 'bank' && (
-          <form onSubmit={handleBankSubmit}>
-            <div className="form-group">
-              <label>Amount to Deposit (INR)</label>
-              <div className="amount-highlight">
-                <span className="inr-amount">₹{amountINR.toFixed(2)}</span>
-                <small>(Based on current exchange rate: 1 USD = ₹{exchangeRateINR?.toFixed(2)})</small>
+          <div className="premium-bank-details">
+            <div className="details-card">
+              <h4><i className="fas fa-building"></i> Bank Account Details</h4>
+              <div className="detail-row">
+                <span>Bank</span>
+                <strong>HDFC Bank</strong>
+              </div>
+              <div className="detail-row">
+                <span>Account Name</span>
+                <strong>AgriWealth Pvt Ltd</strong>
+              </div>
+              <div className="detail-row">
+                <span>Account Number</span>
+                <strong>50200012345678</strong>
+              </div>
+              <div className="detail-row">
+                <span>IFSC Code</span>
+                <strong>HDFC0001234</strong>
+              </div>
+              <div className="detail-row">
+                <span>UPI ID</span>
+                <strong className="copyable" onClick={() => navigator.clipboard.writeText('agriwealth@hdfcbank')}>
+                  agriwealth@hdfcbank <i className="fas fa-copy"></i>
+                </strong>
               </div>
             </div>
-            <div className="form-group">
-              <label>Bank Details</label>
-              <div className="bank-details">
-                <p><strong>Bank:</strong> HDFC Bank</p>
-                <p><strong>Account Name:</strong> AgriWealth Pvt Ltd</p>
-                <p><strong>Account Number:</strong> 50200012345678</p>
-                <p><strong>IFSC Code:</strong> HDFC0001234</p>
-                <p><strong>UPI ID:</strong> agriwealth@hdfcbank</p>
+
+            <form onSubmit={handleBankSubmit}>
+              <div className="form-group premium-form-group">
+                <label>UTR / Reference Number</label>
+                <input
+                  type="text"
+                  value={utr}
+                  onChange={(e) => setUtr(e.target.value)}
+                  placeholder="Enter UTR number after payment"
+                  required
+                />
               </div>
-            </div>
-            <div className="form-group">
-              <label>UTR / Reference Number</label>
-              <input
-                type="text"
-                value={utr}
-                onChange={(e) => setUtr(e.target.value)}
-                placeholder="Enter UTR number after payment"
-                required
-              />
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={processing}>
-              {processing ? 'Submitting...' : `Confirm Payment of ₹${amountINR.toFixed(2)}`}
-            </button>
-          </form>
+              <button type="submit" className="btn-premium-submit" disabled={processing}>
+                {processing ? 'Submitting...' : `Confirm Payment of ₹${amountINR.toFixed(2)}`}
+              </button>
+            </form>
+          </div>
         )}
 
         {/* Crypto Section */}
         {paymentMethod === 'crypto' && (
-          <div>
-            <div className="form-group">
+          <div className="premium-crypto-section">
+            <div className="form-group premium-form-group">
               <label>Select Cryptocurrency</label>
               <select value={selectedCrypto} onChange={(e) => setSelectedCrypto(e.target.value)}>
                 {CRYPTO_CURRENCIES.map(crypto => (
@@ -200,7 +233,7 @@ export default function Payment() {
               </select>
             </div>
 
-            <div className="exchange-rate">
+            <div className="crypto-exchange-card">
               <p>You will receive: <strong>${amountUSD} USD</strong></p>
               {cryptoAmount && (
                 <p>Pay: <strong>{cryptoAmount} {selectedCrypto}</strong></p>
@@ -208,8 +241,8 @@ export default function Payment() {
             </div>
 
             {cryptoAddress ? (
-              <div className="crypto-address">
-                <p><strong>Send to this address:</strong></p>
+              <div className="crypto-address-card">
+                <p><i className="fas fa-qrcode"></i> Send to this address:</p>
                 <code>{cryptoAddress}</code>
                 <button onClick={() => navigator.clipboard.writeText(cryptoAddress)}>
                   Copy Address
@@ -217,18 +250,14 @@ export default function Payment() {
                 <p className="note">Payment will be auto-approved once confirmed on blockchain.</p>
               </div>
             ) : (
-              <button 
-                className="btn btn-primary" 
-                onClick={handleCryptoSubmit}
-                disabled={processing}
-              >
+              <button className="btn-premium-submit" onClick={handleCryptoSubmit} disabled={processing}>
                 Generate Payment Address
               </button>
             )}
           </div>
         )}
 
-        <button className="btn btn-outline cancel-btn" onClick={() => navigate(-1)}>
+        <button className="btn-premium-cancel" onClick={() => navigate(-1)}>
           Cancel
         </button>
       </div>
