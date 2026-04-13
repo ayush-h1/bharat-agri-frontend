@@ -1,8 +1,8 @@
 /* ========================================
-   AgriWealth – Clean & Minimal CSS
+   AgriWealth - Production Ready CSS
    ======================================== */
 
-/* ----- Root Variables ----- */
+/* ----- Variables ----- */
 :root {
     --primary: #1b5e20;
     --primary-dark: #0a3d0a;
@@ -66,11 +66,6 @@ body {
 }
 
 .btn-outline:hover {
-    background: var(--accent);
-    color: var(--primary-dark);
-}
-
-.btn-primary {
     background: var(--accent);
     color: var(--primary-dark);
 }
