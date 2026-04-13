@@ -899,3 +899,158 @@ body {
     margin-bottom: 1.5rem;
     color: var(--text-muted);
 }
+/* ===== My Farms – Catchy Grid ===== */
+.my-farms-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+.farms-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.farms-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.filter-chips {
+    display: flex;
+    gap: 0.5rem;
+}
+.chip {
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    border: none;
+    background: #f0f0f0;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.chip.active {
+    background: var(--primary);
+    color: white;
+}
+.farms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.farm-card {
+    background: white;
+    border-radius: 24px;
+    padding: 1.2rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+}
+.farm-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+.farm-card-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.farm-emoji {
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    background: #f1f8e9;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.farm-info {
+    flex: 1;
+}
+.farm-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.farm-amount {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.status-dot.active {
+    background: #28a745;
+    box-shadow: 0 0 0 2px #d4edda;
+}
+.status-dot.completed {
+    background: #6c757d;
+}
+.farm-stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+.stat {
+    text-align: center;
+    flex: 1;
+}
+.stat-value {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+.farm-progress {
+    margin: 1rem 0 0.5rem;
+}
+.progress-bar {
+    background: #e9ecef;
+    border-radius: 20px;
+    height: 6px;
+    overflow: hidden;
+}
+.progress-fill {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    height: 100%;
+    border-radius: 20px;
+}
+.progress-text {
+    font-size: 0.7rem;
+    text-align: right;
+    margin-top: 4px;
+    color: var(--text-muted);
+}
+.farm-footer {
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+.empty-farms {
+    text-align: center;
+    padding: 4rem;
+    background: white;
+    border-radius: 32px;
+    box-shadow: var(--shadow);
+}
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
